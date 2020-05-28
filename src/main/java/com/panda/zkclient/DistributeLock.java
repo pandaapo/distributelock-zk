@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
+/**
+ * 使用ZkClient实现分布式锁。锁是基于Lock接口
+ */
 public class DistributeLock implements Lock {
 
     private static ZkClient client;
