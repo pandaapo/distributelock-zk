@@ -1,6 +1,6 @@
 package com.panda.zk;
 
-import com.panda.zk.ConcurrentTest.ConcurrentTask;
+import com.panda.zk.ConcurrentUtil.ConcurrentTask;
 
 public class DistributeLockTest {
     public static void main(String[] args) {
@@ -34,13 +34,13 @@ public class DistributeLockTest {
 
         ConcurrentTask[] tasks = new ConcurrentTask[10];
         for(int i=0;i<tasks.length;i++){
-            ConcurrentTask task3 = new ConcurrentTask(){
+            ConcurrentTask task = new ConcurrentTask(){
                 public void run() {
                     DistributeLock lock = null;
                     try {
-                        lock = new DistributeLock("192.168.25.128:2181,192.168.25.129:2181,192.168.25.130:2181","test2");
+                        lock = new DistributeLock("192.168.25.131:2181,192.168.25.133:2181,192.168.25.134:2181","test2");
                         lock.lock();
-                        System.out.println("Thread " + Thread.currentThread().getId() + " running");
+                        System.out.println("Thread " + Thread.currentThread().getId() + " is doing something");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -50,8 +50,8 @@ public class DistributeLockTest {
 
                 }
             };
-            tasks[i] = task3;
+            tasks[i] = task;
         }
-        new ConcurrentTest(tasks);
+        new ConcurrentUtil(tasks);
     }
 }

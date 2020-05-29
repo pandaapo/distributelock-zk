@@ -7,14 +7,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ConcurrentTest {
-    private CountDownLatch startSignal = new CountDownLatch(1);//开始阀门
-    private CountDownLatch doneSignal = null;//结束阀门
+/**
+ * 并发工具
+ */
+public class ConcurrentUtil {
+    private CountDownLatch startSignal = new CountDownLatch(1);//开始阀门，用于实现在一开始多个线程并发访问zk创建节点。
+    private CountDownLatch doneSignal = null;//结束阀门，用于这里getExeTime()统计的个性功能。
     private CopyOnWriteArrayList<Long> list = new CopyOnWriteArrayList<Long>();
     private AtomicInteger err = new AtomicInteger();//原子递增
     private ConcurrentTask[] task = null;
 
-    public ConcurrentTest(ConcurrentTask... task){
+    public ConcurrentUtil(ConcurrentTask... task){
         this.task = task;
         if(task == null){
             System.out.println("task can not null");
@@ -29,7 +32,7 @@ public class ConcurrentTest {
     private void start(){
         //创建线程，并将所有线程等待在阀门处
         createThread();
-        //打开阀门
+        //打开阀门 ？？？在上一步中创建的子线程都在await，能回到这个主线程先执行countDown。？？？
         startSignal.countDown();//递减锁存器的计数，如果计数到达零，则释放所有等待的线程
         try {
             doneSignal.await();//等待所有线程都执行完毕
