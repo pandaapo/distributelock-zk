@@ -15,6 +15,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * ！！！没看懂！！！
  * 使用Zookeeper的API实现分布式锁。锁是基于Lock接口
+ * 一个客户端，一个线程。有多个客户端，多次new ZooKeeper()。
  */
 public class DistributeLock implements Lock, Watcher {
     private ZooKeeper zk;

@@ -13,6 +13,7 @@ import java.util.concurrent.locks.Lock;
 
 /**
  * 使用ZkClient实现分布式锁。锁是基于Lock接口
+ * 一个客户端，多个线程。一个new ZkClient()。
  */
 public class DistributeLock implements Lock {
 
