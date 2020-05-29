@@ -78,6 +78,7 @@ public class DistributeLock implements Lock {
         current_path = client.createEphemeralSequential(root_path + "/", "1");
         System.out.println(Thread.currentThread().getName() + "->创建节点：" + current_path);
         List<String> children = client.getChildren(root_path);
+        //这里没有给TreeSet定义比较器，是因为children是类似这样的集合：00000,00001,00002……在sortedSet.add()时可以自然排序。
         SortedSet<String> sortedSet = new TreeSet<>();
         for (String str : children) {
             sortedSet.add(str);
